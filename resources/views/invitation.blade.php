@@ -16,6 +16,15 @@
     href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css" />
   <link rel="stylesheet" href="{{ secure_asset('css/invitation.css') }}">
 
+  <script defer>
+    window.invitationSettings = {
+      brideName: "{{ $brideName }}",
+      groomName: "{{ $groomName }}"
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
+  <script defer src="{{ asset('js/invitation.js') }}"></script>
 
 
 
@@ -54,15 +63,7 @@
   $brideName = addslashes($settings['bride_name'] ?? '');
   $groomName = addslashes($settings['groom_name'] ?? '');
   @endphp
-  <script>
-    window.invitationSettings = {
-      brideName: "{{ $brideName }}",
-      groomName: "{{ $groomName }}"
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
-  <script src="{{ asset('js/invitation.js') }}"></script>
+  
 
 
 
