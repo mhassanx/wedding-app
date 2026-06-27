@@ -14,7 +14,7 @@
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css" />
-  <link rel="stylesheet" href="{{ secure_asset('css/invitation.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/invitation.css') }}">
 
 
 
