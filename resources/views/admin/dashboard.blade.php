@@ -40,6 +40,9 @@
     }
 
     .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
       margin-bottom: 24px;
       font-size: 20px;
     }
@@ -48,7 +51,15 @@
       color: var(--teal);
       text-decoration: none;
       font-weight: 600;
-      margin-right: 16px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    @media (max-width: 576px) {
+      .nav {
+        font-size: 16px;
+        gap: 8px 12px;
+      }
     }
 
     .summary {
@@ -180,6 +191,7 @@
   <div class="wrap">
     <h1>Admin dashboard</h1>
     <div class="nav">
+      <a href="{{ route('home') }}" target="_blank" rel="noopener">View invitation</a>
       <a href="{{ route('admin.settings.edit', ['key' => $key]) }}">Edit event details</a>
       <a href="{{ route('admin.gallery', ['key' => $key]) }}">Manage gallery</a>
     </div>
