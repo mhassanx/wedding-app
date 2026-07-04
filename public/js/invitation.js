@@ -232,7 +232,81 @@ function initGiftCopyButtons() {
     });
 }
 
+/* ==========================================
+   Opening Card Animation
+========================================== */
+
+function initOpeningAnimation() {
+    const overlay = document.getElementById("opening-overlay");
+    const card = document.getElementById("opening-card");
+
+    if (!overlay || !card) {
+        document.body.classList.remove("invitation-locked");
+        document.body.classList.add("invitation-revealed");
+        return;
+    }
+
+    const settings = window.invitationSettings || {};
+    const storageKey = settings.inviteCode
+        ? "invitation_opened_" + settings.inviteCode
+        : "invitation_opened_general";
+
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    function revealInvitation(skipAnimation) {
+        if (skipAnimation || prefersReducedMotion) {
+            overlay.classList.add("is-hidden");
+            document.body.classList.remove("invitation-locked");
+            document.body.classList.add("invitation-revealed");
+            overlay.setAttribute("aria-hidden", "true");
+            return;
+        }
+
+        card.classList.add("is-opening");
+
+        setTimeout(function () {
+            overlay.classList.add("is-hidden");
+            document.body.classList.remove("invitation-locked");
+            document.body.classList.add("invitation-revealed");
+            overlay.setAttribute("aria-hidden", "true");
+        }, 4800);
+    }
+
+    if (sessionStorage.getItem(storageKey) === "1") {
+        revealInvitation(true);
+        return;
+    }
+
+    function handleOpen() {
+        if (card.classList.contains("is-opening")) {
+            return;
+        }
+
+        card.classList.add("is-opening");
+        sessionStorage.setItem(storageKey, "1");
+
+        setTimeout(function () {
+            overlay.classList.add("is-hidden");
+            document.body.classList.remove("invitation-locked");
+            document.body.classList.add("invitation-revealed");
+            overlay.setAttribute("aria-hidden", "true");
+        }, 4800);
+    }
+
+    card.addEventListener("click", handleOpen);
+
+    card.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleOpen();
+        }
+    });
+}
+
 function initApp() {
+    initOpeningAnimation();
     initCountdown();
     initShareButtons();
     initGallery();

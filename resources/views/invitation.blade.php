@@ -7,7 +7,7 @@
   <title>{{ $settings['bride_name'] }} & {{ $settings['groom_name'] }} — Wedding Invitation</title>
   <meta name="description" content="Join us in celebrating the wedding of {{ $settings['bride_name'] }} and {{ $settings['groom_name'] }}.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Allura&family=Mukta:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Allura&family=Mukta:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
   <link
     rel="stylesheet"
     href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -22,13 +22,22 @@
 
 </head>
 
-<body>
+<body class="invitation-locked">
+
+  @include('partials.opening-card')
 
   <div class="wrap" id="invitation-content">
     <div class="frame-border">
 
       @if ($guest)
-      <div class="greeting-bar">Dear {{ $guest->name }}, you're warmly invited &mdash; we hope to celebrate with you</div>
+      <div class="greeting-banner">
+        <div class="greeting-banner__ornament" aria-hidden="true">✦</div>
+        <p class="greeting-banner__text">
+          <span class="greeting-banner__dear">Dear {{ $guest->name }},</span>
+          <span class="greeting-banner__message">you are warmly invited to share in our joy</span>
+        </p>
+        <div class="greeting-banner__ornament" aria-hidden="true">✦</div>
+      </div>
       @endif
 
       @include('partials.hero')
@@ -54,12 +63,16 @@
   @php
   $brideName = addslashes($settings['bride_name'] ?? '');
   $groomName = addslashes($settings['groom_name'] ?? '');
+  $guestName = addslashes($guest?->name ?? '');
+  $inviteCode = addslashes($guest?->invite_code ?? '');
   @endphp
 
   <script>
     window.invitationSettings = {
       brideName: "{{ $brideName }}",
-      groomName: "{{ $groomName }}"
+      groomName: "{{ $groomName }}",
+      guestName: "{{ $guestName }}",
+      inviteCode: "{{ $inviteCode }}"
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
