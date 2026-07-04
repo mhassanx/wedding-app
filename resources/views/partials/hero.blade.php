@@ -10,7 +10,7 @@
 
       <div class="hero-eyebrow">Together with their families</div>
       <h1 class="hero-names">{{ explode(' ', $settings['bride_name'])[0] }}<span class="hero-amp">&amp;</span>{{ explode(' ', $settings['groom_name'])[0] }}</h1>
-      <div class="hero-date">{{ $settings['mehndi_date'] }} &ndash; {{ $settings['walima_date'] }}</div>
+      <div class="hero-date">{{ $settings['mehndi_date'] }} &ndash; {{ $settings['nikah_date'] }}</div>
       <div class="hero-sub">Mian Channu, Pakistan</div>
       <div class="divider"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
 
