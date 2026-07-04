@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankAccount;
 use App\Models\GalleryImage;
 use App\Models\Guest;
 use App\Models\Rsvp;
