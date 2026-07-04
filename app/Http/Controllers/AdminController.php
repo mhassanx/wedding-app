@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankAccount;
 use App\Models\GalleryImage;
 use App\Models\Guest;
 use App\Models\Rsvp;
@@ -32,6 +33,7 @@ class AdminController extends Controller
 
         return view('admin.settings', [
             'settings' => $settings,
+            'bankAccounts' => BankAccount::ordered()->get(),
             'key' => request()->query('key'),
         ]);
     }
@@ -55,11 +57,40 @@ class AdminController extends Controller
             'contact_phone_1' => ['nullable', 'string', 'max:50'],
             'contact_name_2' => ['nullable', 'string', 'max:255'],
             'contact_phone_2' => ['nullable', 'string', 'max:50'],
-            'gift_bank_details' => ['nullable', 'string', 'max:2000'],
+            'bank_accounts' => ['nullable', 'array'],
+            'bank_accounts.*.account_name' => ['required', 'string', 'max:255'],
+            'bank_accounts.*.account_holder_name' => ['nullable', 'string', 'max:255'],
+            'bank_accounts.*.account_number' => ['nullable', 'string', 'max:255'],
+            'bank_accounts.*.iban' => ['nullable', 'string', 'max:255'],
+            'bank_accounts.*.sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         foreach ($validated as $key => $value) {
+            if ($key === 'bank_accounts') {
+                continue;
+            }
+
             SiteSetting::set($key, $value);
+        }
+
+        BankAccount::query()->delete();
+
+        foreach ($request->input('bank_accounts', []) as $index => $accountData) {
+            $accountData = array_filter($accountData, function ($value) {
+                return $value !== null && $value !== '';
+            });
+
+            if (empty($accountData)) {
+                continue;
+            }
+
+            BankAccount::create([
+                'account_name' => $accountData['account_name'] ?? '',
+                'account_holder_name' => $accountData['account_holder_name'] ?? null,
+                'account_number' => $accountData['account_number'] ?? '',
+                'iban' => $accountData['iban'] ?? null,
+                'sort_order' => $accountData['sort_order'] ?? $index,
+            ]);
         }
 
         return redirect()

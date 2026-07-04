@@ -456,8 +456,6 @@ body {
     border-radius: 8px;
 }
 
-
-
 /* Counter */
 
 .gallery-counter {
@@ -500,8 +498,6 @@ body {
 }
 
 /* Empty State */
-
-
 
 .gallery-empty {
     text-align: center;
@@ -584,10 +580,54 @@ body {
     border: 2px solid var(--gold);
     border-radius: 12px;
     padding: 24px;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--maroon-deep);
-    white-space: pre-line;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gift-detail-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(121, 18, 48, 0.12);
+}
+
+.gift-detail-row:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.gift-detail-text {
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.gift-copy-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.gift-copy-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--gold);
+    background: var(--white);
+    color: var(--maroon);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.gift-copy-btn:hover {
+    background: var(--ivory);
 }
 
 /* ====================

@@ -194,11 +194,50 @@ function initLightbox() {
     });
 }
 
+function initGiftCopyButtons() {
+    document.querySelectorAll(".gift-copy-btn").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const value = button.dataset.copyValue || "";
+            const original = button.textContent;
+
+            if (!value) {
+                return;
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard
+                    .writeText(value)
+                    .then(function () {
+                        button.textContent = "Copied";
+
+                        setTimeout(function () {
+                            button.textContent = original;
+                        }, 2000);
+                    })
+                    .catch(function () {
+                        button.textContent = "Copy failed";
+
+                        setTimeout(function () {
+                            button.textContent = original;
+                        }, 2000);
+                    });
+            } else {
+                button.textContent = "Copy unavailable";
+
+                setTimeout(function () {
+                    button.textContent = original;
+                }, 2000);
+            }
+        });
+    });
+}
+
 function initApp() {
     initCountdown();
     initShareButtons();
     initGallery();
     initLightbox();
+    initGiftCopyButtons();
 }
 
 if (document.readyState === "loading") {

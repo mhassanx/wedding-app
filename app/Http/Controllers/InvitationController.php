@@ -54,6 +54,7 @@ class InvitationController extends Controller
             'guest' => $guest,
             'settings' => $settings,
             'galleryImages' => GalleryImage::orderBy('sort_order')->get(),
+            'bankAccounts' => BankAccount::ordered()->get(),
         ]);
     }
 }
