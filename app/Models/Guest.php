@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class Guest extends Model
@@ -35,8 +37,22 @@ class Guest extends Model
         return $code;
     }
 
-    public function rsvp()
+    public function markAsOpened(): void
+    {
+        if ($this->opened_at) {
+            return;
+        }
+
+        $this->update(['opened_at' => now()]);
+    }
+
+    public function rsvp(): HasOne
     {
         return $this->hasOne(Rsvp::class);
+    }
+
+    public function scopeLatest(Builder $query): Builder
+    {
+        return $query->orderByDesc('created_at');
     }
 }

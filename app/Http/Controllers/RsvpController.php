@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRsvpRequest;
-use App\Models\Guest;
 use App\Models\Rsvp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -12,22 +11,10 @@ class RsvpController extends Controller
 {
     public function store(StoreRsvpRequest $request): RedirectResponse
     {
-        $data = $request->validated();
+        $rsvp = Rsvp::createFromRequest($request->validated());
 
-        $guest = null;
-        if (!empty($data['invite_code'])) {
-            $guest = Guest::where('invite_code', $data['invite_code'])->first();
-        }
-
-        Rsvp::create([
-            'guest_id' => $guest?->id,
-            'name' => $data['name'],
-            'guest_count' => $data['guest_count'],
-            'message' => $data['message'] ?? null,
-        ]);
-
-        $redirectRoute = $guest
-            ? redirect()->route('invite.show', ['code' => $guest->invite_code])
+        $redirectRoute = $rsvp->guest
+            ? redirect()->route('invite.show', ['code' => $rsvp->guest->invite_code])
             : redirect()->route('home');
 
         return $redirectRoute
@@ -37,7 +24,7 @@ class RsvpController extends Controller
 
     public function index(): View
     {
-        $rsvps = Rsvp::with('guest')->orderByDesc('created_at')->get();
+        $rsvps = Rsvp::latest()->with('guest')->get();
 
         return view('rsvps.index', [
             'rsvps' => $rsvps,

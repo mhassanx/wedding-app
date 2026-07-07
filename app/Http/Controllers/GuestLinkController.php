@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGuestRequest;
 use App\Models\Guest;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class GuestLinkController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(StoreGuestRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        Guest::create(['name' => $request->input('name')]);
+        Guest::create(['name' => $request->validated('name')]);
 
         return redirect()
             ->route('admin.dashboard', ['key' => $request->query('key')])
