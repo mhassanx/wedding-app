@@ -140,8 +140,20 @@
     <div class="banner">Saved. Changes are live on the invitation page now.</div>
     @endif
 
-    <form method="POST" action="{{ route('admin.settings.update', ['key' => $key]) }}">
+    <form method="POST" action="{{ route('admin.settings.update', ['key' => $key]) }}" enctype="multipart/form-data">
       @csrf
+
+      <div class="card">
+        <h2>Link preview image</h2>
+        <p style="font-size: 13px; color: var(--teal); margin-bottom: 14px;">This image appears when you paste your invitation link in WhatsApp, Facebook, iMessage, and other apps. Recommended size: 1200&times;630 px.</p>
+        @if (!empty($settings['share_image']))
+        <img src="{{ asset('storage/' . $settings['share_image']) }}" alt="Current link preview image" style="width: 100%; max-width: 420px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
+        @endif
+        <div class="field">
+          <label>Upload preview image</label>
+          <input type="file" name="share_image" accept="image/*">
+        </div>
+      </div>
 
       <div class="card">
         <h2>Couple</h2>

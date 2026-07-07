@@ -73,6 +73,21 @@ class AdminController extends Controller
             SiteSetting::set($key, $value);
         }
 
+        if ($request->hasFile('share_image')) {
+            $request->validate([
+                'share_image' => ['image', 'max:5120'],
+            ]);
+
+            $existingImage = SiteSetting::get('share_image');
+
+            if ($existingImage) {
+                Storage::disk('public')->delete($existingImage);
+            }
+
+            $path = $request->file('share_image')->store('share', 'public');
+            SiteSetting::set('share_image', $path);
+        }
+
         BankAccount::query()->delete();
 
         foreach ($request->input('bank_accounts', []) as $index => $accountData) {
@@ -159,6 +174,7 @@ class AdminController extends Controller
             'contact_name_2' => '',
             'contact_phone_2' => '',
             'gift_bank_details' => '',
+            'share_image' => '',
         ];
     }
 }

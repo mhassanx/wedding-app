@@ -29,9 +29,12 @@ class InvitationController extends Controller
 
     private function renderInvitation(?Guest $guest): View
     {
+        $galleryImages = GalleryImage::orderBy('sort_order')->get();
+
         $settings = SiteSetting::getMany([
             'bride_name' => 'Ayesha Tariq',
             'groom_name' => 'Adnan Ashraf',
+            'share_image' => '',
             'mehndi_date' => '23 July 2026',
             'mehndi_time' => '6:00 PM',
             'mehndi_venue' => 'Royal Garden Marriage Hall, Mian Channu',
@@ -49,12 +52,35 @@ class InvitationController extends Controller
             'gift_bank_details' => '',
         ]);
 
+        $shareImage = $this->resolveShareImageUrl($settings, $galleryImages);
+        $pageTitle = "{$settings['bride_name']} & {$settings['groom_name']} — Wedding Invitation";
+        $pageDescription = "Join us in celebrating the wedding of {$settings['bride_name']} and {$settings['groom_name']}.";
+
         return view('invitation', [
             'rsvpCount' => Rsvp::count(),
             'guest' => $guest,
             'settings' => $settings,
-            'galleryImages' => GalleryImage::orderBy('sort_order')->get(),
+            'galleryImages' => $galleryImages,
             'bankAccounts' => BankAccount::ordered()->get(),
+            'pageTitle' => $pageTitle,
+            'pageDescription' => $pageDescription,
+            'shareUrl' => url()->current(),
+            'shareImage' => $shareImage,
         ]);
+    }
+
+    private function resolveShareImageUrl(array $settings, $galleryImages): ?string
+    {
+        if (! empty($settings['share_image'])) {
+            return asset('storage/'.$settings['share_image']);
+        }
+
+        $firstImage = $galleryImages->first();
+
+        if ($firstImage) {
+            return asset('storage/'.$firstImage->path);
+        }
+
+        return null;
     }
 }

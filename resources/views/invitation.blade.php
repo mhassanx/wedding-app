@@ -4,8 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ $settings['bride_name'] }} & {{ $settings['groom_name'] }} — Wedding Invitation</title>
-  <meta name="description" content="Join us in celebrating the wedding of {{ $settings['bride_name'] }} and {{ $settings['groom_name'] }}.">
+  <title>{{ $pageTitle }}</title>
+  <meta name="description" content="{{ $pageDescription }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ $shareUrl }}">
+  <meta property="og:title" content="{{ $pageTitle }}">
+  <meta property="og:description" content="{{ $pageDescription }}">
+  @if ($shareImage)
+  <meta property="og:image" content="{{ $shareImage }}">
+  <meta property="og:image:alt" content="{{ $settings['bride_name'] }} and {{ $settings['groom_name'] }} wedding invitation">
+  @endif
+  <meta name="twitter:card" content="{{ $shareImage ? 'summary_large_image' : 'summary' }}">
+  <meta name="twitter:title" content="{{ $pageTitle }}">
+  <meta name="twitter:description" content="{{ $pageDescription }}">
+  @if ($shareImage)
+  <meta name="twitter:image" content="{{ $shareImage }}">
+  @endif
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Allura&family=Mukta:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
   <link
