@@ -69,9 +69,13 @@ class InvitationController extends Controller
         ]);
     }
 
-    private function resolveShareImageUrl(array $settings, $galleryImages): ?string
+    private function resolveShareImageUrl(array $settings, $galleryImages): string
     {
         if (! empty($settings['share_image'])) {
+            if (str_starts_with($settings['share_image'], 'images/')) {
+                return asset($settings['share_image']);
+            }
+
             return asset('storage/'.$settings['share_image']);
         }
 
@@ -81,6 +85,6 @@ class InvitationController extends Controller
             return asset('storage/'.$firstImage->path);
         }
 
-        return null;
+        return asset('images/og-preview.jpg');
     }
 }

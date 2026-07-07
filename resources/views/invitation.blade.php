@@ -12,9 +12,14 @@
   <meta property="og:description" content="{{ $pageDescription }}">
   @if ($shareImage)
   <meta property="og:image" content="{{ $shareImage }}">
+  <meta property="og:image:secure_url" content="{{ $shareImage }}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{{ $settings['bride_name'] }} and {{ $settings['groom_name'] }} wedding invitation">
+  <meta property="og:site_name" content="{{ $settings['bride_name'] }} & {{ $settings['groom_name'] }}">
   @endif
-  <meta name="twitter:card" content="{{ $shareImage ? 'summary_large_image' : 'summary' }}">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ $pageTitle }}">
   <meta name="twitter:description" content="{{ $pageDescription }}">
   @if ($shareImage)

@@ -80,12 +80,26 @@ class AdminController extends Controller
 
             $existingImage = SiteSetting::get('share_image');
 
-            if ($existingImage) {
+            if ($existingImage && str_starts_with($existingImage, 'images/')) {
+                $existingPath = public_path($existingImage);
+                if (is_file($existingPath)) {
+                    unlink($existingPath);
+                }
+            } elseif ($existingImage) {
                 Storage::disk('public')->delete($existingImage);
             }
 
-            $path = $request->file('share_image')->store('share', 'public');
-            SiteSetting::set('share_image', $path);
+            $file = $request->file('share_image');
+            $extension = $file->getClientOriginalExtension() ?: 'jpg';
+            $directory = public_path('images');
+
+            if (! is_dir($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            $filename = 'share-preview.'.$extension;
+            $file->move($directory, $filename);
+            SiteSetting::set('share_image', 'images/'.$filename);
         }
 
         BankAccount::query()->delete();

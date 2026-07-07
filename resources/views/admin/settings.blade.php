@@ -147,7 +147,10 @@
         <h2>Link preview image</h2>
         <p style="font-size: 13px; color: var(--teal); margin-bottom: 14px;">This image appears when you paste your invitation link in WhatsApp, Facebook, iMessage, and other apps. Recommended size: 1200&times;630 px.</p>
         @if (!empty($settings['share_image']))
-        <img src="{{ asset('storage/' . $settings['share_image']) }}" alt="Current link preview image" style="width: 100%; max-width: 420px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
+        <img src="{{ str_starts_with($settings['share_image'], 'images/') ? asset($settings['share_image']) : asset('storage/' . $settings['share_image']) }}" alt="Current link preview image" style="width: 100%; max-width: 420px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
+        @else
+        <img src="{{ asset('images/og-preview.jpg') }}" alt="Default link preview image" style="width: 100%; max-width: 420px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
+        <p style="font-size: 12px; color: #666; margin-bottom: 12px;">Using the default preview image until you upload your own.</p>
         @endif
         <div class="field">
           <label>Upload preview image</label>
