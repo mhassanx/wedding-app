@@ -144,10 +144,10 @@ function initGallery() {
 
         loop: true,
 
-        speed: 1200,
+        speed: 800,
 
         autoplay: {
-            delay: 4500,
+            delay: 2500,
 
             disableOnInteraction: false,
 
