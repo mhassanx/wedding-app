@@ -11,12 +11,22 @@ class SiteSettingsService
 {
     public function defaults(): array
     {
-        return config('wedding.settings', []);
+        $settings = config('wedding.settings');
+
+        if (is_array($settings) && $settings !== []) {
+            return $settings;
+        }
+
+        $config = require config_path('wedding.php');
+
+        return is_array($config['settings'] ?? null) ? $config['settings'] : [];
     }
 
     public function all(): array
     {
-        return SiteSetting::getMany($this->defaults());
+        $defaults = $this->defaults();
+
+        return array_merge($defaults, SiteSetting::getMany($defaults));
     }
 
     public function update(array $settings, array $bankAccounts, ?UploadedFile $shareImage, bool $useDefaultShareImage): void

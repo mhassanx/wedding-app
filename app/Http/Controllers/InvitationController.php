@@ -32,6 +32,8 @@ class InvitationController extends Controller
     {
         $settings = $this->siteSettings->all();
         $shareImage = $this->siteSettings->shareImageUrl($settings['share_image'] ?? null);
+        $brideName = $settings['bride_name'] ?? '';
+        $groomName = $settings['groom_name'] ?? '';
 
         return view('invitation', [
             'rsvpCount' => Rsvp::count(),
@@ -39,8 +41,8 @@ class InvitationController extends Controller
             'settings' => $settings,
             'galleryImages' => GalleryImage::ordered()->get(),
             'bankAccounts' => BankAccount::ordered()->get(),
-            'pageTitle' => "{$settings['bride_name']} & {$settings['groom_name']} — Wedding Invitation",
-            'pageDescription' => "Join us in celebrating the wedding of {$settings['bride_name']} and {$settings['groom_name']}.",
+            'pageTitle' => "{$brideName} & {$groomName} — Wedding Invitation",
+            'pageDescription' => "Join us in celebrating the wedding of {$brideName} and {$groomName}.",
             'shareUrl' => url()->current(),
             'shareImage' => $shareImage,
         ]);
